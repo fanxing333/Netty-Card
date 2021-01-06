@@ -111,16 +111,10 @@ public class CardBuilder {
 
 
     public static void main(String[] args) {
-        CardBuilder cardBuilder = new CardBuilder();
-        /*
-        for (String str:cards) {
-            System.out.println(str);
-        }
-        System.out.println("length --> " + cards.size());
-
-        List<Integer> list = cardBuilder.randomInit();*/
-        cardBuilder.cardsDeal();
-        System.out.println(cardBuilder.toString());
+        System.out.println((1+1)%4);
+        System.out.println(3%4);
+        System.out.println(2%4);
+        System.out.println(1%4);
 
     }
 }

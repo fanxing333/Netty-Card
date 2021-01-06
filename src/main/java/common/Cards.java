@@ -77,10 +77,10 @@ public class Cards {
         Cards cards = new Cards();
 
         // 用户注册
-        User user1 = new User("张三", 1, "10001");
-        User user2 = new User("李四", 2, "10002");
-        User user3 = new User("王五", 3, "10003");
-        User user4 = new User("赵六", 4, "10004");
+        User user1 = new User("张三", 1);
+        User user2 = new User("李四", 2);
+        User user3 = new User("王五", 3);
+        User user4 = new User("赵六", 4);
 
         //用户获得手牌
         user1.setIndexList(cards.getUserIndex(user1.getUserId()));

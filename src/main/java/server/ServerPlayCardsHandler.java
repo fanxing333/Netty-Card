@@ -33,17 +33,45 @@ public class ServerPlayCardsHandler extends ChannelInboundHandlerAdapter {
             // 判断出牌是否符合规则
 
             // 出牌
-            ArrayList<String> discardCards = new ArrayList<>();
-            String indexList[] = new String(arr, "UTF-8").split(",");
-            for (String index:indexList) {
-                discardCards.add(user.discardCard(Integer.parseInt(index)-1));
+            String response;
 
+            if (new String(arr, "UTF-8").equals("pass")){
+                UserSet.setSeq(user.getUserId()+1!=5?user.getUserId()+1:1);
+                response = user.getUserId() + "号玩家放弃出牌。" + "\n"
+                            + "现在轮到" + UserSet.getSeq() + "号玩家出牌";
+
+                ctx.writeAndFlush(Unpooled.copiedBuffer("现在轮到" + UserSet.getSeq() + "号玩家出牌", CharsetUtil.UTF_8));
+
+                for (User user1: UserSet.users) {
+                    if (user1 != user) {
+                        UserSet.getChannelByUserId(user1.getUserId())
+                                .writeAndFlush(Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
+                    }
+                }
+
+            } else {
+                String[] indexList = new String(arr, "UTF-8").split(",");
+
+
+                ArrayList<String> discardCards = user.discardCard(indexList);
+                UserSet.setSeq(user.getUserId()+1!=5?user.getUserId()+1:1);
+
+                response = "打出的牌：" + discardCards.toString() + "\n"
+                        + "剩下的牌：" + "\n"
+                        + user.cardsToStringGracefully() + "\n"
+                        + "轮到" + UserSet.getSeq() + "号玩家出牌";
+                ctx.writeAndFlush(Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
+
+                response = user.getUserId() + "号玩家出牌：" + discardCards.toString() + "\n"
+                        + "现在轮到" + UserSet.getSeq() + "号玩家出牌";
+                for (User user1: UserSet.users) {
+                    if (user1 != user) {
+                        UserSet.getChannelByUserId(user1.getUserId())
+                                .writeAndFlush(Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
+                    }
+                }
             }
-            String response = user.getUserId() + "号玩家出牌：" + discardCards;
-            for (User singleUser:UserSet.users) {
-                UserSet.getChannelByUserId(singleUser.getUserId())
-                        .writeAndFlush(Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
-            }
+
         } else {
             String response = "不要急。";
             ctx.writeAndFlush(Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));

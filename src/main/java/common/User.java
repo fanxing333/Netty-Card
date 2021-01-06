@@ -3,7 +3,6 @@ package common;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,17 +10,14 @@ import java.util.List;
 public class User {
     private String username;
     private int userId;
-    private String userSession;
     private int grade;
     private ArrayList<String> cards = new ArrayList<>();
     private List<Integer> indexList;
 
-    private static String[] nameList = {"张三", "李四", "王五", "赵六", "林七"};
 
-    public User(String username, int userId, String userSession){
+    public User(String username, int userId){
         this.username = username;
         this.userId = userId;
-        this.userSession = userSession;
         this.grade = 0;
     }
 
@@ -70,6 +66,9 @@ public class User {
     }
 
     public String cardsToStringGracefully() {
+        if (cards.size() == 0) {
+            return "";
+        }
         String index = "[";
         for (int i=1; i<=cards.size(); i++) {
             if (cards.get(i-1).length() == 2) {
@@ -95,21 +94,32 @@ public class User {
         return index;
     }
 
-    public String discardCard(int index) {
-        log.info(String.valueOf(index));
-        indexList.remove(index);
-        String card = cards.get(index);
-        cards.remove(index);
+    public ArrayList<String> discardCard(String[] indexStringList) {
 
-        return card;
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Integer> integerArrayList = new ArrayList<>();
+        for (String str:indexStringList) {
+            integerArrayList.add(Integer.parseInt(str)-1);
+        }
+
+        // 从大到小排序
+        Collections.sort(integerArrayList, Collections.reverseOrder());
+
+        for (int i:integerArrayList) {
+            //indexList.remove(i);
+            result.add(0, cards.get(i));
+            cards.remove(i);
+        }
+
+        return result;
     }
 
 
     public static void main(String[] args) {
-        User user1 = new User("张三", 1, "10001");
-        User user2 = new User("李四", 2, "10002");
-        User user3 = new User("王五", 3, "10003");
-        User user4 = new User("赵六", 4, "10004");
+        User user1 = new User("张三", 1);
+        User user2 = new User("李四", 2);
+        User user3 = new User("王五", 3);
+        User user4 = new User("赵六", 4);
 
         CardBuilder cardBuilder = new CardBuilder();
         cardBuilder.cardsDeal();
