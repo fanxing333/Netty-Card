@@ -12,6 +12,7 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 
@@ -32,7 +33,7 @@ public class ServerDiscardHandler extends ChannelInboundHandlerAdapter {
         User user = UserSet.getUserByUserId((int)ctx.channel().attr(AttributeKey.valueOf("user")).get());
         if (user.getUserId() == UserSet.getSeq()) {
             String response;
-            String[] indexList = new String(arr, "UTF-8").split(",");
+            String[] indexList = new String(arr, StandardCharsets.UTF_8).split(",");
             if (indexList.length != 8) {
                 response = "请将八张牌置底！";
             } else {

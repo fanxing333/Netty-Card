@@ -26,7 +26,6 @@ public class ServerPlayCardsHandler extends ChannelInboundHandlerAdapter {
         int len = in.readableBytes();
         byte[] arr = new byte[len];
         in.getBytes(0, arr);
-        log.info(ctx.channel().remoteAddress().toString());
 
         User user = UserSet.getUserByUserId((int)ctx.channel().attr(AttributeKey.valueOf("user")).get());
         if (user.getUserId() == UserSet.getSeq()) {

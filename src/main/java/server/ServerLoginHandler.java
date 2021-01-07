@@ -41,7 +41,7 @@ public class ServerLoginHandler extends ChannelInboundHandlerAdapter {
             Cards cards = new Cards();
             for (User singleUser:UserSet.users) {
                 singleUser.setIndexList(cards.getUserIndex(singleUser.getUserId()));
-                singleUser.setCards();
+                singleUser.setCards(cards);
                 String singleResponse = "\n" + singleUser.cardsToStringGracefully();
                 //log.info(singleResponse);
                 if (singleUser.getCards().size()>25) {

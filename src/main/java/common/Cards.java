@@ -19,6 +19,11 @@ public class Cards {
 
     }
 
+    public ArrayList<String> getCard() {
+
+        return cards;
+    }
+
     /**
      * 用户获得手牌
      * @param userId
@@ -88,10 +93,10 @@ public class Cards {
         user3.setIndexList(cards.getUserIndex(user3.getUserId()));
         user4.setIndexList(cards.getUserIndex(user4.getUserId()));
 
-        user1.setCards();
-        user2.setCards();
-        user3.setCards();
-        user4.setCards();
+        user1.setCards(cards);
+        user2.setCards(cards);
+        user3.setCards(cards);
+        user4.setCards(cards);
 
         System.out.println(user1.cardsToStringGracefully()+"牌数："+user1.getCards().size());
         System.out.println(user2.cardsToStringGracefully()+"牌数："+user2.getCards().size());

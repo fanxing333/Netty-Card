@@ -21,9 +21,9 @@ public class User {
         this.grade = 0;
     }
 
-    public void setCards() {
+    public void setCards(Cards card) {
 
-        ArrayList<String> cardList = new CardBuilder().getCards();
+        ArrayList<String> cardList = card.getCards();
 
         Collections.sort(indexList);
         for (int i:indexList) {
@@ -79,13 +79,19 @@ public class User {
                 }
 
             } else if (cards.get(i-1).length() == 3){
+
                 if (i<10) {
-                    index = index + i + ", ";
+                    index = index + "  " + i + ", ";
                 } else {
                     index = index + " "+ i + ", ";
                 }
             } else {
-                index = index + "  " + i + " , ";
+                if (i<10) {
+                    index = index + "  " + i + "  , ";
+                } else {
+                    index = index + "  " + i + " , ";
+                }
+
             }
         }
         index = index.substring(0, index.length()-2) + "]";
@@ -116,30 +122,6 @@ public class User {
 
 
     public static void main(String[] args) {
-        User user1 = new User("张三", 1);
-        User user2 = new User("李四", 2);
-        User user3 = new User("王五", 3);
-        User user4 = new User("赵六", 4);
-
-        CardBuilder cardBuilder = new CardBuilder();
-        cardBuilder.cardsDeal();
-
-        user1.setIndexList(cardBuilder.getUserIndexList(user1.getUserId()));
-        user2.setIndexList(cardBuilder.getUserIndexList(user2.getUserId()));
-        user3.setIndexList(cardBuilder.getUserIndexList(user3.getUserId()));
-        user4.setIndexList(cardBuilder.getUserIndexList(user4.getUserId()));
-
-        user1.setCards();
-        user2.setCards();
-        user3.setCards();
-        user4.setCards();
-
-
-        System.out.println(user1.getCards().toString());
-        System.out.println(user2.getCards().toString());
-        System.out.println(user3.getCards().toString());
-        System.out.println(user4.getCards().toString());
-
 
     }
 }
